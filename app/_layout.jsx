@@ -1,28 +1,44 @@
 import { Slot } from 'expo-router';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback, useEffect, useState } from 'react';
+import { FONTS } from '../constants';
+
+// Make splash screen visible while assets/resources loading
+SplashScreen.preventAutoHideAsync();
 
 export default () => {
-  // TODO: Handle preloading assets
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [fontsLoaded] = useFonts(FONTS);
 
-  const [fontsLoaded] = useFonts({
-    'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Italic': require('../assets/fonts/Montserrat-Italic.ttf'),
-    'Montserrat-Light': require('../assets/fonts/Montserrat-Light.ttf'),
-    'Montserrat-LightItalic': require('../assets/fonts/Montserrat-LightItalic.ttf'),
-    'Montserrat-Medium': require('../assets/fonts/Montserrat-Medium.ttf'),
-    'Montserrat-MediumItalic': require('../assets/fonts/Montserrat-MediumItalic.ttf'),
-    'Montserrat-Regular': require('../assets/fonts/Montserrat-Regular.ttf'),
-    'Montserrat-SemiBold': require('../assets/fonts/Montserrat-SemiBold.ttf'),
-    'Montserrat-Thin': require('../assets/fonts/Montserrat-Thin.ttf'),
-    'Montserrat-ThinItalic': require('../assets/fonts/Montserrat-ThinItalic.ttf'),
-  });
+  // Handle preparing app 
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // TODO: Handle preloading other assets or fetching resources
+        await new Promise(resolve => setTimeout(resolve, 2500));
+      } catch (error) {
+        console.warn(error);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
 
-  // TODO: handle conditionally rendering splash screen while assets are loading
-  if (!fontsLoaded) {
+    prepare();
+  })
+
+  // Handle hiding splash screen upon successful loading
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady && fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady, fontsLoaded])
+
+  if (!appIsReady) {
     return null;
-  } else {
-    return (
-      <Slot />
+  } 
+
+  return (
+    <Slot />
   )
-  }
 };
