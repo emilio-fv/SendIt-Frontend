@@ -25,3 +25,17 @@ Documentation Notes
   - Auth screens are screens related to the authentication features: register and login
   - The tabs screens are all the screens related to the tabs found in the bottom navigation bar
   - The headers screens are all related to the icon buttons found in the top headers
+
+
+Installations:
+Initial project setup
+  npx create-expo-app --template
+Set up routing: 
+  npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar react-native-gesture-handler
+Enable custom fonts: 
+  npx expo install expo-font
+Set up splash screen control: 
+  npx expo install expo-splash-screen
+  
+  
+  
