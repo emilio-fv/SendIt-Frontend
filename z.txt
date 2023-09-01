@@ -1,0 +1,27 @@
+import { Stack } from 'expo-router';
+import { Link } from 'expo-router';
+
+
+Documentation Notes
+- To set up the frontend, I used Expo, a platform of tools, libraries, and services for building cross-platform mobile applications using JavaScript and React.
+- Added the following folders:
+  app -> will store all of the screens 
+  components -> custom react components
+  hooks -> custom react hooks
+  constants -> constant variables
+  styles -> CSS files
+- As far as navigation goes, I'm structuring the application around the Home screen. Placing the Home screen at the center will provide a better context for implementing authentication features. When the user opens the app, a check for a user sessions will be done to ensure that only logged in users can navigate to protected routes and access protected resources. If a user is not logged in or their session has expired, they will be redirected to the landing page with prompts to register for an account or login. 
+- App Structure:
+  Splash screen
+    Landing Page 
+      Register
+      Login
+        Home
+          Log Climb
+          Profile
+          Search Users
+          Settings
+- The app will be broken into the following categories of screens: auth, tabs, and headers
+  - Auth screens are screens related to the authentication features: register and login
+  - The tabs screens are all the screens related to the tabs found in the bottom navigation bar
+  - The headers screens are all related to the icon buttons found in the top headers
