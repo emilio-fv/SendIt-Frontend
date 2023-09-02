@@ -1,14 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from 'expo-router';
 import { COLORS } from "../constants";
 import RegularText from "../components/Text/RegularText";
+import Carousel from "../components/Carousel";
 
 export default Index = () => {
   // TODO: Check if user is logged in
-  const handleRegisterLink = () => {
-    return router.replace('(auth)/register');
-  };
 
   const handleLoginLink = () => {
     return router.replace('(auth)/login');
@@ -16,10 +14,7 @@ export default Index = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* TODO: Carousel */}
-      <TouchableOpacity onPress={handleRegisterLink}>
-        <RegularText style={styles.authLink} text={'Create an account'}/>
-      </TouchableOpacity>
+      <Carousel />
       <TouchableOpacity onPress={handleLoginLink}>
         <RegularText style={styles.authLink} text={'Already have an account? Login here.'}/>
       </TouchableOpacity>
@@ -33,10 +28,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: 25
   },
   authLink: {
     color: COLORS.lightText,
-    fontSize: 18,
+    fontSize: 14,
   }
 });
