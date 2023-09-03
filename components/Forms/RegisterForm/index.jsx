@@ -1,127 +1,121 @@
-import { useState } from "react";
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
+import { useEffect, useState } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
+import { COLORS } from '../../../constants';
+import ErrorText from '../../Text/ErrorText';
+import StyledTextInput from '../../Inputs/StyledTextInput';
+import EmailInput from '../../Inputs/EmailInput';
+import PasswordInput from '../../Inputs/PasswordInput';
 
-import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS } from "../../../constants";
+const errorLabels = {
+  firstName: 'First Name',
+  // lastName: 'Last Name',
+  // username: 'Username',
+  // email: 'Email',
+  // password: 'Password',
+  // confirmPassword: 'Confirm Password'
+};
 
 const RegisterForm = () => {
-  const [firstName, setFirstName] = useState('');
+  // Handle form data changes
+  const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setCon] = useState('');
+
+  const [errors, setErrors] = useState(null);
+  const [initialRender, setInitialRender] = useState(true);
+
+  // Handle form validations
+  const validate = (formData) => { // Handle validating form data
+    // const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    console.log('validate function');
+    // console.log(formData);
+    for (const [key, value] of Object.entries(formData)) {
+      if (value?.length > 0) {
+        if (errors && errors[key]) {
+          delete errors[key];
+        }
+        setErrors({
+          ...errors
+        });
+      }
+
+      if (!initialRender && !value) {          
+        setErrors({
+          ...errors,
+          [key]: `${errorLabels[key]} is required.`
+        });
+      }
+
+      if (value?.length === 0) { // Handle required fields
+        setErrors({
+          ...errors,
+          [key]: `${errorLabels[key]} is required.`
+        });
+      }
+
+      // if (key === 'email' && !value.match(mailFormat)) { // Handle email format
+      //   setErrors({
+      //     [key]: 'Invalid email.'
+      //   })
+      // } 
+
+      // if (key === 'password' && value !== formData.confirmPassword) { // compare password and matching password
+      //   setErrors({
+      //     [key]: 'Passwords must match.'
+      //   });
+      // }
+    }
+
+    if (errors && Object.keys(errors).length === 0) {
+      setErrors(null);
+    }
+
+    setInitialRender(false);
+  };
+
+  useEffect(() => {
+    validate({
+      firstName,
+      // lastName,
+      // username,
+      // email,
+      // password,
+      // confirmPassword
+    });
+  }, [firstName, lastName, username, email, password, confirmPassword]);
+
+  const handleSubmit = () => {
+    console.log(errors);
+    validate({
+      firstName
+    });
+
+    if (!errors) {
+      console.log('all fields valid');
+      // TODO: send form data to backend API
+    }
+  };
 
   return (
     <View
       style={{
-        gap: 16
+        // gap: 16
       }}
     >
-      <TextInput 
-        style={{
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='First Name'
-        onChange={setFirstName}
-        value={firstName}
-      />
-      <TextInput 
-        style={{
-
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Last Name'
-        onChange={setLastName}
-        value={lastName}
-      />
-      <TextInput 
-        style={{
-
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Username'
-        // onChange={}
-        // value={}
-      />
-      <TextInput 
-        style={{
-
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Email'
-        // onChange={}
-        // value={}
-      />
-      <TextInput 
-        style={{
-
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Password'
-        // onChange={}
-        // value={}
-      />
-      <TextInput 
-        style={{
-
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Confirm Password'
-        // onChange={}
-        // value={}
-      />
-      <TouchableHighlight>
+      <StyledTextInput placeholder={'First Name'} onChange={setFirstName} value={firstName} />
+      <View style={{ height: 16 }}>
+        {errors?.firstName ? <ErrorText text={errors?.firstName}/> : null}
+      </View>
+      {/* <StyledTextInput placeholder={'Last Name'} onChange={null} value={null} /> */}
+      {/* <StyledTextInput placeholder={'Username'} onChange={null} value={null} /> */}
+      {/* <EmailInput placeholder={'Email'} onChange={null} value={null}/> */}
+      {/* <PasswordInput placeholder={'Password'} onChange={null} value={null}/> */}
+      {/* <PasswordInput placeholder={'Confirm Password'} onChange={null} value={null}/> */}
+      {/* TODO: abstract action button to it's own component */}
+      <TouchableHighlight onPress={() => handleSubmit()}>
         <View
           style={{
             backgroundColor: COLORS.action,
@@ -137,7 +131,9 @@ const RegisterForm = () => {
               fontFamily: 'Montserrat-Regular',
               fontSize: 20
             }}
-          >Submit</Text>
+          >
+            Submit
+          </Text>
         </View>
       </TouchableHighlight>
     </View>
