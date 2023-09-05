@@ -1,3 +1,4 @@
+// Imports
 import { useEffect, useState } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import { COLORS } from '../../../constants';
@@ -8,93 +9,92 @@ import PasswordInput from '../../Inputs/PasswordInput';
 
 const errorLabels = {
   firstName: 'First Name',
-  // lastName: 'Last Name',
-  // username: 'Username',
-  // email: 'Email',
-  // password: 'Password',
-  // confirmPassword: 'Confirm Password'
+  lastName: 'Last Name',
+  username: 'Username',
+  email: 'Email',
+  password: 'Password',
+  confirmPassword: 'Confirm Password'
 };
 
-const RegisterForm = () => {
+export default RegisterForm = () => {
   // Handle form data changes
   const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setCon] = useState('');
+  const [lastName, setLastName] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
 
+  // Handle form errors
   const [errors, setErrors] = useState(null);
   const [initialRender, setInitialRender] = useState(true);
 
-  // Handle form validations
+  // Form validations function
   const validate = (formData) => { // Handle validating form data
-    // const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    console.log('validate function');
-    // console.log(formData);
+    let errors = null;
+    const mailFormat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    // Iterate over all fields
     for (const [key, value] of Object.entries(formData)) {
-      if (value?.length > 0) {
-        if (errors && errors[key]) {
-          delete errors[key];
+      // Handle required fields
+      if (!value || value?.length === 0) {
+        errors = {
+          ...errors,
+          [key]: errorLabels[key] + ' is required.'
         }
-        setErrors({
-          ...errors
-        });
+      } else {
+        // Handle email format
+        if (key === 'email') {
+          if (!value.toString().match(mailFormat)) {
+            errors = {
+              ...errors,
+              [key]: 'Invalid email'
+            }
+          }
+        }
+
+        // Handle password fields
+        if (key === 'confirmPassword') { // compare password and matching password
+          if (value !== formData.password) {
+            errors = {
+              ...errors,
+              [key]: 'Passwords must match.'
+            }
+          }
+        }
       }
-
-      if (!initialRender && !value) {          
-        setErrors({
-          ...errors,
-          [key]: `${errorLabels[key]} is required.`
-        });
-      }
-
-      if (value?.length === 0) { // Handle required fields
-        setErrors({
-          ...errors,
-          [key]: `${errorLabels[key]} is required.`
-        });
-      }
-
-      // if (key === 'email' && !value.match(mailFormat)) { // Handle email format
-      //   setErrors({
-      //     [key]: 'Invalid email.'
-      //   })
-      // } 
-
-      // if (key === 'password' && value !== formData.confirmPassword) { // compare password and matching password
-      //   setErrors({
-      //     [key]: 'Passwords must match.'
-      //   });
-      // }
     }
-
-    if (errors && Object.keys(errors).length === 0) {
-      setErrors(null);
-    }
-
+    setErrors(errors);
     setInitialRender(false);
   };
 
+  // Validate form data on changes
   useEffect(() => {
-    validate({
-      firstName,
-      // lastName,
-      // username,
-      // email,
-      // password,
-      // confirmPassword
-    });
+    if (!initialRender) {
+      validate({
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        confirmPassword
+      });
+    }
   }, [firstName, lastName, username, email, password, confirmPassword]);
 
   const handleSubmit = () => {
-    console.log(errors);
-    validate({
-      firstName
-    });
+    if (initialRender) {
+      validate({
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        confirmPassword
+      });
+    }
 
     if (!errors) {
-      console.log('all fields valid');
       // TODO: send form data to backend API
     }
   };
@@ -102,24 +102,69 @@ const RegisterForm = () => {
   return (
     <View
       style={{
-        // gap: 16
+        paddingHorizontal: '20%'
       }}
     >
-      <StyledTextInput placeholder={'First Name'} onChange={setFirstName} value={firstName} />
-      <View style={{ height: 16 }}>
-        {errors?.firstName ? <ErrorText text={errors?.firstName}/> : null}
-      </View>
-      {/* <StyledTextInput placeholder={'Last Name'} onChange={null} value={null} /> */}
-      {/* <StyledTextInput placeholder={'Username'} onChange={null} value={null} /> */}
-      {/* <EmailInput placeholder={'Email'} onChange={null} value={null}/> */}
-      {/* <PasswordInput placeholder={'Password'} onChange={null} value={null}/> */}
-      {/* <PasswordInput placeholder={'Confirm Password'} onChange={null} value={null}/> */}
+      {/* First Name */}
+      <StyledTextInput 
+        label={'First name'}
+        placeholder={'First Name'} 
+        onChange={setFirstName} 
+        value={firstName}
+        error={errors?.firstName}
+      />
+
+      {/* Last name */}
+      <StyledTextInput 
+        label={'Last Name'}
+        placeholder={'Last Name'} 
+        onChange={setLastName} 
+        value={lastName}
+        error={errors?.lastName}
+      />
+
+      {/* Username */}
+      <StyledTextInput 
+        label={'Username'}
+        placeholder={'Username'} 
+        onChange={setUsername} 
+        value={username} 
+        error={errors?.username}
+      />
+
+      {/* Email */}
+      <EmailInput 
+        label={'Email'}
+        placeholder={'Email'} 
+        onChange={setEmail} 
+        value={email}
+        error={errors?.email}
+      />
+
+      {/* Password */}
+      <PasswordInput 
+        label={'Password'}
+        placeholder={'Password'} 
+        onChange={setPassword} 
+        value={password}
+        error={errors?.password}
+      />
+
+      {/* Confirm Password */}
+      <PasswordInput 
+        label={'Confirm Password'}
+        placeholder={'Confirm Password'} 
+        onChange={setConfirmPassword} 
+        value={confirmPassword}
+        error={errors?.confirmPassword}
+      />
+
       {/* TODO: abstract action button to it's own component */}
       <TouchableHighlight onPress={() => handleSubmit()}>
         <View
           style={{
             backgroundColor: COLORS.action,
-            marginHorizontal: '25%',
+            marginTop: 10,
             borderRadius: 6,
             height: 32,
             justifyContent: 'center',
@@ -139,5 +184,3 @@ const RegisterForm = () => {
     </View>
   )
 };
-
-export default RegisterForm;

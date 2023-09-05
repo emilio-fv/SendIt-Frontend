@@ -1,28 +1,51 @@
-import { TextInput, View } from "react-native"
+import { Text, TextInput, View } from "react-native"
 import { COLORS } from "../../../constants"
-import { Entypo } from '@expo/vector-icons';
+import SemiBoldText from '../../Text/SemiBoldText';
 
-export default PasswordInput = ({ placeholder, onChange, value }) => {
+export default PasswordInput = ({ label, placeholder, onChange, value, error }) => {
   return (
+    <View
+      style={{
+        flexDirection: 'column',
+        gap: 6,
+      }}
+    >
+      <SemiBoldText
+        style={{
+          color: COLORS.lightText,
+        }}
+        text={label}
+      />
       <TextInput 
         style={{
           color: COLORS.lightText,
           borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
+          borderColor: `${error ? COLORS.warning : COLORS.cardBackground}`,
+          padding: 6,
           textAlign: 'center',
-          fontSize: 18,
           borderRadius: 6,
           fontFamily: 'Montserrat-Regular'
         }}
         autoCapitalize='none'
         spellCheck={false}
         secureTextEntry={true}
-        placeholderTextColor={COLORS.lightText}
+        placeholderTextColor={error ? COLORS.warning : COLORS.cardBackground}
         placeholder={placeholder}
-        onChange={onChange}
+        onChangeText={onChange}
         value={value}
       />
+      <View
+        style={{
+          height: 16,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {error 
+          ? <ErrorText styles={{ textAlign: 'center', fontSize: 12 }} text={error} />
+          : null
+        }
+      </View>
+    </View>
   )
 }
