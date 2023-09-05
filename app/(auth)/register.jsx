@@ -3,20 +3,14 @@ import { Link } from 'expo-router';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../../constants";
 import RegisterForm from "../../components/Forms/RegisterForm";
+import RegularText from '../../components/Text/RegularText';
 
 export default Register = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>
-        Register
-      </Text>
+      <RegularText style={styles.heading} text={'Register'}/>
       <RegisterForm />
-      <Link
-        style={styles.link}
-        href='/(auth)/login' 
-      >
-        Already registered? Login here.
-      </Link>
+      <Link style={styles.link} href='/(auth)/login'>Already registered? Login here.</Link>
     </SafeAreaView>
   )
 };
@@ -32,7 +26,6 @@ const styles = StyleSheet.create({
     color: COLORS.lightText,
     textAlign: 'center',
     fontSize: 32,
-    fontFamily: 'Montserrat-Regular'
   },
   link: {
     color: COLORS.lightText,
