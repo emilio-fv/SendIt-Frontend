@@ -2,7 +2,7 @@ import { Text, TextInput, View } from "react-native"
 import { COLORS } from "../../../constants"
 import SemiBoldText from '../../Text/SemiBoldText';
 
-export default PasswordInput = ({ label, placeholder, onChange, value, error }) => {
+export default PasswordInput = ({ label, placeholder, onChange, value, error, autoFocus, returnKeyType, onSubmitEditing, refHelper }) => {
   return (
     <View
       style={{
@@ -29,6 +29,10 @@ export default PasswordInput = ({ label, placeholder, onChange, value, error }) 
         autoCapitalize='none'
         spellCheck={false}
         secureTextEntry={true}
+        autoFocus={autoFocus}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={onSubmitEditing}
+        ref={refHelper}
         placeholderTextColor={error ? COLORS.warning : COLORS.cardBackground}
         placeholder={placeholder}
         onChangeText={onChange}

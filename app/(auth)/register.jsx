@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { Link } from 'expo-router';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../../constants";
@@ -7,10 +7,21 @@ import RegularText from '../../components/Text/RegularText';
 
 export default Register = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <RegularText style={styles.heading} text={'Register'}/>
-      <RegisterForm />
-      <Link style={styles.link} href='/(auth)/login'>Already registered? Login here.</Link>
+    <SafeAreaView 
+      style={styles.container} 
+      onStartShouldSetResponder={() => Keyboard.dismiss()}
+    >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <RegularText style={styles.heading} text={'Register'}/>
+        <RegisterForm />
+      </KeyboardAvoidingView>
+      <Link 
+        replace 
+        style={styles.link} 
+        href='/(auth)/login'
+      >
+        Already registered? Login here.
+      </Link>
     </SafeAreaView>
   )
 };
@@ -26,6 +37,7 @@ const styles = StyleSheet.create({
     color: COLORS.lightText,
     textAlign: 'center',
     fontSize: 32,
+    marginBottom: 20
   },
   link: {
     color: COLORS.lightText,
