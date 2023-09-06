@@ -1,17 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { Link } from 'expo-router';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../../constants";
 import LoginForm from "../../components/Forms/LoginForm";
+import RegularText from "../../components/Text/RegularText";
 
 export default Login = () => {
   return (
-    <SafeAreaView  style={styles.container}>
-      <Text style={styles.heading}>
-        Login
-      </Text>
-      <LoginForm />
+    <SafeAreaView 
+      style={styles.container} 
+      onStartShouldSetResponder={() => Keyboard.dismiss()}
+    >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <RegularText style={styles.heading} text={'Login'}/>
+        <LoginForm />
+      </KeyboardAvoidingView>
       <Link
+        replace
         style={styles.link}
         href='/(auth)/register' 
       >
@@ -31,6 +36,7 @@ const styles = StyleSheet.create({
   heading: {
     color: COLORS.lightText,
     textAlign: 'center',
+    marginBottom: 20, 
     fontSize: 32,
     fontFamily: 'Montserrat-Regular'
   },

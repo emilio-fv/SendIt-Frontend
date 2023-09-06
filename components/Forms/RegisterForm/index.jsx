@@ -1,11 +1,12 @@
 // Imports
-import { useEffect, useState } from 'react';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableHighlight, View } from 'react-native';
 import { COLORS } from '../../../constants';
-import ErrorText from '../../Text/ErrorText';
 import StyledTextInput from '../../Inputs/StyledTextInput';
 import EmailInput from '../../Inputs/EmailInput';
 import PasswordInput from '../../Inputs/PasswordInput';
+import ActionButton from '../../Buttons/ActionButton';
+import { router } from 'expo-router';
 
 const errorLabels = {
   firstName: 'First Name',
@@ -24,6 +25,11 @@ export default RegisterForm = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
+  const ref_input2 = useRef();
+  const ref_input3 = useRef();
+  const ref_input4 = useRef();
+  const ref_input5 = useRef();
+  const ref_input6 = useRef();
 
   // Handle form errors
   const [errors, setErrors] = useState(null);
@@ -82,6 +88,8 @@ export default RegisterForm = () => {
     }
   }, [firstName, lastName, username, email, password, confirmPassword]);
 
+
+  // Handle form submit
   const handleSubmit = () => {
     if (initialRender) {
       validate({
@@ -96,6 +104,7 @@ export default RegisterForm = () => {
 
     if (!errors) {
       // TODO: send form data to backend API
+      return router.replace('/(tabs)/home');
     }
   };
 
@@ -105,82 +114,68 @@ export default RegisterForm = () => {
         paddingHorizontal: '20%'
       }}
     >
-      {/* First Name */}
       <StyledTextInput 
         label={'First name'}
         placeholder={'First Name'} 
         onChange={setFirstName} 
         value={firstName}
         error={errors?.firstName}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input2.current.focus()}
       />
-
-      {/* Last name */}
       <StyledTextInput 
         label={'Last Name'}
         placeholder={'Last Name'} 
         onChange={setLastName} 
         value={lastName}
         error={errors?.lastName}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input3.current.focus()}
+        refHelper={ref_input2}
       />
-
-      {/* Username */}
       <StyledTextInput 
         label={'Username'}
         placeholder={'Username'} 
         onChange={setUsername} 
         value={username} 
         error={errors?.username}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input4.current.focus()}
+        refHelper={ref_input3}
       />
-
-      {/* Email */}
       <EmailInput 
         label={'Email'}
         placeholder={'Email'} 
         onChange={setEmail} 
         value={email}
         error={errors?.email}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input5.current.focus()}
+        refHelper={ref_input4}
       />
-
-      {/* Password */}
       <PasswordInput 
         label={'Password'}
         placeholder={'Password'} 
         onChange={setPassword} 
         value={password}
         error={errors?.password}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input6.current.focus()}
+        refHelper={ref_input5}
       />
-
-      {/* Confirm Password */}
       <PasswordInput 
         label={'Confirm Password'}
         placeholder={'Confirm Password'} 
         onChange={setConfirmPassword} 
         value={confirmPassword}
         error={errors?.confirmPassword}
+        returnKeyType={'done'}
+        refHelper={ref_input6}
       />
-
-      {/* TODO: abstract action button to it's own component */}
-      <TouchableHighlight onPress={() => handleSubmit()}>
-        <View
-          style={{
-            backgroundColor: COLORS.action,
-            marginTop: 10,
-            borderRadius: 6,
-            height: 32,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: 'Montserrat-Regular',
-              fontSize: 20
-            }}
-          >
-            Submit
-          </Text>
-        </View>
-      </TouchableHighlight>
+      <ActionButton 
+        onPress={() => handleSubmit()}
+        text={'Submit'}
+      />
     </View>
   )
 };

@@ -2,7 +2,7 @@ import { Text, TextInput, View } from "react-native"
 import { COLORS } from "../../../constants"
 import SemiBoldText from '../../Text/SemiBoldText';
 
-export default StyledTextInput = ({ label, placeholder, onChange, value, error }) => {
+export default StyledTextInput = ({ label, placeholder, onChange, value, error, autoFocus, returnKeyType, onSubmitEditing, refHelper }) => {
   return (
     <View
       style={{
@@ -29,6 +29,10 @@ export default StyledTextInput = ({ label, placeholder, onChange, value, error }
         placeholderTextColor={error ? COLORS.warning : COLORS.cardBackground}
         autoCapitalize='none'
         spellCheck={false}
+        ref={refHelper}
+        autoFocus={autoFocus}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={onSubmitEditing}
         placeholder={placeholder}
         onChangeText={onChange}
         value={value}

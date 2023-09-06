@@ -1,71 +1,104 @@
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
-import { COLORS } from "../../../constants";
+import { Keyboard, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+import ActionButton from '../../Buttons/ActionButton';
 import { router } from 'expo-router';
+import { useEffect, useRef, useState } from "react";
+import EmailInput from "../../Inputs/EmailInput";
+import PasswordInput from "../../Inputs/PasswordInput";
+
+const errorLabels = {
+  email: 'Email',
+  password: 'Password'
+};
 
 export default LoginForm = () => {
+  // Handle form data changes
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const ref_input2 = useRef();
+
+  // Handle form errors
+  const [errors, setErrors] = useState(null);
+  const [initialRender, setInitialRender] = useState(true);
+
+  // Form validations function
+  const validate = (formData) => {
+    let errors = null;
+    const mailFormat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    for (const [key, value] of Object.entries(formData)) {
+      if (!value || value?.length === 0) {
+        errors = {
+          ...errors,
+          [key]: errorLabels[key] + ' is required.'
+        }
+      }
+
+      if (key === 'email' && email) {
+        if (!value.toString().match(mailFormat)) {
+          errors = {
+            ...errors,
+            [key]: 'Invalid email'
+          }
+        }
+      }
+    }
+    setErrors(errors);
+    setInitialRender(false);
+  }
+
+  // Valid form data on changes
+  useEffect(() => {
+    if (!initialRender) {
+      validate({
+        email,
+        password
+      })
+    }
+  }, [email, password]);
+
+  // Handle form submit
   const handleSubmit = () => {
-    return router.replace('/(tabs)/home');
+    if (initialRender) {
+      validate({
+        email,
+        password
+      })
+    }
+
+    if (!errors) {
+      // TODO: send form data to backend API
+      return router.replace('/(tabs)/home');
+    }
   };
 
   return (
     <View
       style={{
-        gap: 16
+        paddingHorizontal: '20%'
       }}
     >
-      <TextInput 
-        style={{
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Email'
-        // onChange={}
-        // value={}
+      <EmailInput 
+        label={'Email'}
+        placeholder={'Email'}
+        onChange={setEmail}
+        value={email}
+        error={errors?.email}
+        returnKeyType={'next'}
+        onSubmitEditing={() => ref_input2.current.focus()}
       />
-      <TextInput 
-        style={{
-          color: COLORS.lightText,
-          borderWidth: .5,
-          borderColor: COLORS.cardBackground,
-          marginHorizontal: '25%',
-          height: 32,
-          textAlign: 'center',
-          fontSize: 18,
-          borderRadius: 6,
-          fontFamily: 'Montserrat-Regular'
-        }}
-        placeholderTextColor={COLORS.lightText}
-        placeholder='Password'  
-        // onChange={}
-        // value={}
+      <PasswordInput 
+        label={'Password'}
+        placeholder={'Password'}
+        onChange={setPassword}
+        value={password}
+        error={errors?.password}
+        returnKeyType={'done'}
+        refHelper={ref_input2}
       />
-      <TouchableHighlight onPress={handleSubmit}>
-        <View
-          style={{
-            backgroundColor: COLORS.action,
-            marginHorizontal: '25%',
-            borderRadius: 6,
-            height: 32,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: 'Montserrat-Regular',
-              fontSize: 20
-            }}
-          >Submit</Text>
-        </View>
-      </TouchableHighlight>
+      <ActionButton 
+        onPress={() => handleSubmit()}
+        text={'Submit'}
+      />
     </View>
   )
 }
