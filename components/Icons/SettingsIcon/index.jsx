@@ -9,7 +9,7 @@ export default SettingsIcon = () => {
 
   return (
     <View>
-      <TouchableOpacity onPress={handleSettingsPress}>
+      <TouchableOpacity onPress={() => handleSettingsPress()}>
         <Feather name="settings" size={24} color="black" />
       </TouchableOpacity>
     </View>
