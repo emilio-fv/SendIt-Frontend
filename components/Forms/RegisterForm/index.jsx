@@ -6,6 +6,7 @@ import StyledTextInput from '../../Inputs/StyledTextInput';
 import EmailInput from '../../Inputs/EmailInput';
 import PasswordInput from '../../Inputs/PasswordInput';
 import ActionButton from '../../Buttons/ActionButton';
+import { router } from 'expo-router';
 
 const errorLabels = {
   firstName: 'First Name',
@@ -103,6 +104,7 @@ export default RegisterForm = () => {
 
     if (!errors) {
       // TODO: send form data to backend API
+      
     }
   };
 

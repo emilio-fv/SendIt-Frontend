@@ -67,6 +67,7 @@ export default LoginForm = () => {
 
     if (!errors) {
       // TODO: send form data to backend API
+      return router.replace('/(tabs)/home');
     }
   };
 
