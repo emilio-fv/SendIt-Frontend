@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { COLORS } from '../../../constants/index';
 import RegularText from '../../../components/Text/RegularText';
 
@@ -23,8 +23,10 @@ export default Home = () => {
         backgroundColor: COLORS.background
       }}
     >
-      {fakeCards.map((item) => 
+      {/* TODO: build Climb Card component */}
+      {fakeCards.map((item, index) => 
         <View 
+          key={index}
           style={{
             height: 100,
             backgroundColor: COLORS.cardBackground,
