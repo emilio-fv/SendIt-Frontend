@@ -9,7 +9,7 @@ export default AddUserIcon = () => {
 
   return (
     <View>
-      <TouchableOpacity onPress={handleAddUserPress}>
+      <TouchableOpacity onPress={() => handleAddUserPress()}>
         <AntDesign name="adduser" size={24} color="black" />
       </TouchableOpacity>
     </View>
