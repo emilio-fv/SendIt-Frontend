@@ -11,4 +11,4 @@ export default BoldText = ({ style, text }) => {
       {text}
     </Text>
   )
-}
+};

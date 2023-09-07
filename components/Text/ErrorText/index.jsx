@@ -12,4 +12,4 @@ export default ErrorText = ({ styles, text }) => {
       {text}
     </Text>
   )
-}
+};

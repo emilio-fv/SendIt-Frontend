@@ -1,32 +1,17 @@
 import { COLORS } from "../../../constants"
-import { Keyboard, TouchableWithoutFeedback, TextInput, View } from "react-native"
+import { TextInput, View, StyleSheet } from "react-native"
 import ErrorText from "../../Text/ErrorText"
 import SemiBoldText from '../../Text/SemiBoldText';
 // import { View, TextInput, StyleSheet,  } from 'react-native';
 
 export default EmailInput = ({ label, placeholder, onChange, value, error, autoFocus, returnKeyType, onSubmitEditing, refHelper }) => {
   return (
-      <View
-        style={{
-          flexDirection: 'column',
-          gap: 6,
-        }}
-      >
-        <SemiBoldText
-          style={{
-            color: COLORS.lightText,
-          }}
-          text={label}
-        />
+      <View style={styles.container}>
+        <SemiBoldText style={styles.label} text={label} />
         <TextInput
           style={{
-            color: COLORS.lightText,
-            borderWidth: .5,
+            ...styles.input,
             borderColor: `${error ? COLORS.warning : COLORS.cardBackground}`,
-            padding: 6,
-            textAlign: 'center',
-            borderRadius: 6,
-            fontFamily: 'Montserrat-Regular'
           }}
           inputMode='email'
           keyboardType='email-address'
@@ -41,18 +26,38 @@ export default EmailInput = ({ label, placeholder, onChange, value, error, autoF
           onChangeText={onChange}
           value={value}
         />
-        <View
-          style={{
-            height: 12,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <View style={styles.errors}>
           {error
-            ? <ErrorText styles={{ textAlign: 'center', fontSize: 12 }} text={error} />
+            ? <ErrorText styles={styles.errorText} text={error} />
             : null
           }
         </View>
       </View>
   )
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    gap: 5,
+  },
+  label: {
+    color: COLORS.lightText,
+  },
+  input: {
+    borderRadius: 6,
+    borderWidth: .5,
+    color: COLORS.lightText,
+    padding: 5,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-Regular'
+  },
+  errors: {
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  errorText: { 
+    textAlign: 'center',
+  }
+});

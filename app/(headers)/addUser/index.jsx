@@ -1,16 +1,13 @@
-import { SafeAreaView, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { router } from "expo-router";
+import { SafeAreaView, Text } from "react-native";
+import Header from "../../../components/Header";
 
 export default AddUser = () => {
   return (
     <SafeAreaView>
-      <View>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <Text>Add User</Text>
-      </View>
+      <Header page={'Add User'}/>
+      <Text>
+        TODO: Add user
+      </Text>
     </SafeAreaView>
   )
 };

@@ -1,27 +1,37 @@
-import { Pressable } from 'react-native';
+import { TouchableHighlight, StyleSheet } from 'react-native';
 import { COLORS } from '../../../constants';
 import RegularText from '../../Text/RegularText';
 
 export default ActionButton = ({ onPress, buttonStyle, textStyle, text, }) => {
   return (
-    <Pressable 
+    <TouchableHighlight
       onPress={onPress} 
+      underlayColor={COLORS.actionPress}
       style={{ 
         ...buttonStyle,
-        borderRadius: 6,
-        backgroundColor: COLORS.action,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 30
+        ...styles.button
       }}
     >
       <RegularText
         style={{
           ...textStyle,
-          fontSize: 18
+          ...styles.text
         }}
         text={text}
       />
-    </Pressable>
+    </TouchableHighlight>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 5,
+    backgroundColor: COLORS.action,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30
+  },
+  text: {
+    fontSize: 16
+  }
+})

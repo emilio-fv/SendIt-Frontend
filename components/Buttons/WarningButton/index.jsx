@@ -1,27 +1,36 @@
-import { Pressable } from 'react-native';
+import { StyleSheet, TouchableHighlight } from 'react-native';
 import { COLORS } from '../../../constants';
 import RegularText from '../../Text/RegularText';
 
 export default WarningButton = ({ onPress, buttonStyle, textStyle, text, }) => {
   return (
-    <Pressable
+    <TouchableHighlight
       onPress={onPress}
       style={{
         ...buttonStyle,
-        backgroundColor: COLORS.warning,
-        borderRadius: 6,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 30
+        ...styles.button
       }}
     >
       <RegularText 
         style={{
           ...textStyle,
-          fontSize: 18
+          ...styles.text
         }}
         text={text}
       />
-    </Pressable>
+    </TouchableHighlight>
   )
-}
+};
+
+const styles = StyleSheet.create({
+  button: {
+        backgroundColor: COLORS.warning,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 30
+  },
+  text: {
+    fontSize: 16
+  }
+})

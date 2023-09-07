@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, StyleSheet } from "react-native";
 import { Link } from 'expo-router';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../../constants";
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     height: '100%',
     justifyContent: 'center',
-    gap: 20
+    gap: 25
   },
   heading: {
     color: COLORS.lightText,

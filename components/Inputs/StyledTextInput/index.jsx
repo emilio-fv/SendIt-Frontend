@@ -1,30 +1,15 @@
-import { Text, TextInput, View } from "react-native"
+import { StyleSheet, TextInput, View } from "react-native"
 import { COLORS } from "../../../constants"
 import SemiBoldText from '../../Text/SemiBoldText';
 
 export default StyledTextInput = ({ label, placeholder, onChange, value, error, autoFocus, returnKeyType, onSubmitEditing, refHelper }) => {
   return (
-    <View
-      style={{
-        flexDirection: 'column',
-        gap: 6,
-      }}
-    >
-      <SemiBoldText
-        style={{
-          color: COLORS.lightText,
-        }}
-        text={label}
-      />
+    <View style={styles.container} >
+      <SemiBoldText style={styles.label} text={label} />
       <TextInput
         style={{
-            color: COLORS.lightText,
-            borderWidth: .5,
-            borderColor: `${error ? COLORS.warning : COLORS.cardBackground}`,
-            padding: 6,
-            textAlign: 'center',
-            borderRadius: 6,
-            fontFamily: 'Montserrat-Regular'
+          ...styles.input,
+          borderColor: `${error ? COLORS.warning : COLORS.cardBackground}`,
         }}
         placeholderTextColor={error ? COLORS.warning : COLORS.cardBackground}
         autoCapitalize='none'
@@ -37,18 +22,38 @@ export default StyledTextInput = ({ label, placeholder, onChange, value, error, 
         onChangeText={onChange}
         value={value}
       />
-      <View
-        style={{
-          height: 16,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
+      <View style={styles.errors}>
         {error 
-          ? <ErrorText styles={{ textAlign: 'center', fontSize: 12 }} text={error} />
+          ? <ErrorText styles={styles.errorText} text={error} />
           : null
         }
       </View>
     </View>
   )
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    gap: 5
+  },
+  label: {
+    color: COLORS.lightText,
+  },
+  input: {
+    borderRadius: 5,
+    borderWidth: .5,
+    color: COLORS.lightText,
+    padding: 5,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-Regular'
+  },
+  errors: {
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  errorText: {
+    textAlign: 'center', 
+  }
+});

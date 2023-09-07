@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { Link } from 'expo-router';
 
 
-Documentation Notes
+*Documentation Notes*
 - To set up the frontend, I used Expo, a platform of tools, libraries, and services for building cross-platform mobile applications using JavaScript and React.
 - Added the following folders:
   app -> will store all of the screens 
@@ -11,7 +11,7 @@ Documentation Notes
   constants -> constant variables
   styles -> CSS files
 - As far as navigation goes, I'm structuring the application around the Home screen. Placing the Home screen at the center will provide a better context for implementing authentication features. When the user opens the app, a check for a user sessions will be done to ensure that only logged in users can navigate to protected routes and access protected resources. If a user is not logged in or their session has expired, they will be redirected to the landing page with prompts to register for an account or login. 
-- App Structure:
+- User flow:
   Splash screen
     Landing Page 
       Register
@@ -26,16 +26,28 @@ Documentation Notes
   - The tabs screens are all the screens related to the tabs found in the bottom navigation bar
   - The headers screens are all related to the icon buttons found in the top headers
 
+*Style Guide*
+Reusable components:
+- Buttons
+- Carousel 
+- Forms 
+- Header 
+- Icons 
+- Inputs 
+- Text 
 
-Installations:
+Components that need standardized styling: 
+- Action & Warning Buttons 
+- Icons 
+- Input fields 
+
+
+*Installations*
 Initial project setup
   npx create-expo-app --template
-Set up routing: 
+Set up routing with Expo: 
   npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar react-native-gesture-handler
 Enable custom fonts: 
   npx expo install expo-font
 Set up splash screen control: 
   npx expo install expo-splash-screen
-  
-  
-  

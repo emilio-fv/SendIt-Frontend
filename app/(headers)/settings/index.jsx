@@ -1,6 +1,5 @@
 import { router } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
 import Header from "../../../components/Header";
 import WarningButton from '../../../components/Buttons/WarningButton';
 import { SafeAreaView } from "react-native-safe-area-context";
