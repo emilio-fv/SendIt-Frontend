@@ -1,7 +1,4 @@
 import { Tabs } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { COLORS } from '../../constants/index';
-// import Header from '../../components/Header';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';

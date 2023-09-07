@@ -1,7 +1,6 @@
 // Imports
 import { useEffect, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableHighlight, View } from 'react-native';
-import { COLORS } from '../../../constants';
+import { StyleSheet, View } from 'react-native';
 import StyledTextInput from '../../Inputs/StyledTextInput';
 import EmailInput from '../../Inputs/EmailInput';
 import PasswordInput from '../../Inputs/PasswordInput';
@@ -18,6 +17,14 @@ const errorLabels = {
 };
 
 export default RegisterForm = () => {
+  // Helpers
+  const [initialRender, setInitialRender] = useState(true);
+  const refLastName = useRef();
+  const refUsername = useRef();
+  const refEmail = useRef();
+  const refPassword = useRef();
+  const refConfirmPassword = useRef();
+
   // Handle form data changes
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -25,15 +32,9 @@ export default RegisterForm = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
-  const ref_input2 = useRef();
-  const ref_input3 = useRef();
-  const ref_input4 = useRef();
-  const ref_input5 = useRef();
-  const ref_input6 = useRef();
 
   // Handle form errors
   const [errors, setErrors] = useState(null);
-  const [initialRender, setInitialRender] = useState(true);
 
   // Form validations function
   const validate = (formData) => { // Handle validating form data
@@ -109,11 +110,7 @@ export default RegisterForm = () => {
   };
 
   return (
-    <View
-      style={{
-        paddingHorizontal: '20%'
-      }}
-    >
+    <View style={styles.container}>
       <StyledTextInput 
         label={'First name'}
         placeholder={'First Name'} 
@@ -121,7 +118,7 @@ export default RegisterForm = () => {
         value={firstName}
         error={errors?.firstName}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input2.current.focus()}
+        onSubmitEditing={() => refLastName.current.focus()}
       />
       <StyledTextInput 
         label={'Last Name'}
@@ -130,8 +127,8 @@ export default RegisterForm = () => {
         value={lastName}
         error={errors?.lastName}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input3.current.focus()}
-        refHelper={ref_input2}
+        onSubmitEditing={() => refUsername.current.focus()}
+        refHelper={refLastName}
       />
       <StyledTextInput 
         label={'Username'}
@@ -140,8 +137,8 @@ export default RegisterForm = () => {
         value={username} 
         error={errors?.username}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input4.current.focus()}
-        refHelper={ref_input3}
+        onSubmitEditing={() => refEmail.current.focus()}
+        refHelper={refUsername}
       />
       <EmailInput 
         label={'Email'}
@@ -150,8 +147,8 @@ export default RegisterForm = () => {
         value={email}
         error={errors?.email}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input5.current.focus()}
-        refHelper={ref_input4}
+        onSubmitEditing={() => refPassword.current.focus()}
+        refHelper={refEmail}
       />
       <PasswordInput 
         label={'Password'}
@@ -160,8 +157,8 @@ export default RegisterForm = () => {
         value={password}
         error={errors?.password}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input6.current.focus()}
-        refHelper={ref_input5}
+        onSubmitEditing={() => refConfirmPassword.current.focus()}
+        refHelper={refPassword}
       />
       <PasswordInput 
         label={'Confirm Password'}
@@ -170,12 +167,21 @@ export default RegisterForm = () => {
         value={confirmPassword}
         error={errors?.confirmPassword}
         returnKeyType={'done'}
-        refHelper={ref_input6}
+        refHelper={refConfirmPassword}
       />
       <ActionButton 
         onPress={() => handleSubmit()}
         text={'Submit'}
+        buttonStyle={styles.button}
       />
     </View>
   )
 };
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: '20%',
+  },
+  button: {
+    marginTop: 10
+  }
+})

@@ -1,4 +1,4 @@
-import { Keyboard, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ActionButton from '../../Buttons/ActionButton';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from "react";
@@ -11,14 +11,16 @@ const errorLabels = {
 };
 
 export default LoginForm = () => {
+  // Helpers
+  const refPassword = useRef();
+  const [initialRender, setInitialRender] = useState(true);
+
   // Handle form data changes
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const ref_input2 = useRef();
 
   // Handle form errors
   const [errors, setErrors] = useState(null);
-  const [initialRender, setInitialRender] = useState(true);
 
   // Form validations function
   const validate = (formData) => {
@@ -72,11 +74,7 @@ export default LoginForm = () => {
   };
 
   return (
-    <View
-      style={{
-        paddingHorizontal: '20%'
-      }}
-    >
+    <View style={styles.container}>
       <EmailInput 
         label={'Email'}
         placeholder={'Email'}
@@ -84,7 +82,7 @@ export default LoginForm = () => {
         value={email}
         error={errors?.email}
         returnKeyType={'next'}
-        onSubmitEditing={() => ref_input2.current.focus()}
+        onSubmitEditing={() => refPassword.current.focus()}
       />
       <PasswordInput 
         label={'Password'}
@@ -93,12 +91,22 @@ export default LoginForm = () => {
         value={password}
         error={errors?.password}
         returnKeyType={'done'}
-        refHelper={ref_input2}
+        refHelper={refPassword}
       />
       <ActionButton 
         onPress={() => handleSubmit()}
         text={'Submit'}
+        buttonStyle={styles.button}
       />
     </View>
   )
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: '20%'
+  },
+  button: {
+    marginTop: 10
+  }
+})

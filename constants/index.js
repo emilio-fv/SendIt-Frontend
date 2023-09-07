@@ -6,7 +6,9 @@ export const COLORS = {
   darkText: '#231F20',
   lightText: '#E0E0E0',
   action: '#8997A0',
-  warning: '#FF4A11',
+  actionPress: '#7d8991',
+  warning: '#f0554a',
+  warningPress: '#ed6258'
 }
 
 export const FONTS = {

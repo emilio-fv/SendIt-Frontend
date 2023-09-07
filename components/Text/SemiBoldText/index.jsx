@@ -11,4 +11,4 @@ export default SemiBoldText = ({ style, text }) => {
       {text}
     </Text>
   )
-}
+};

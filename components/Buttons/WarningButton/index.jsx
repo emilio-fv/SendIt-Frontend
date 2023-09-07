@@ -1,18 +1,17 @@
-import { TouchableHighlight, StyleSheet } from 'react-native';
+import { StyleSheet, TouchableHighlight } from 'react-native';
 import { COLORS } from '../../../constants';
 import RegularText from '../../Text/RegularText';
 
-export default ActionButton = ({ onPress, buttonStyle, textStyle, text, }) => {
+export default WarningButton = ({ onPress, buttonStyle, textStyle, text, }) => {
   return (
     <TouchableHighlight
-      onPress={onPress} 
-      underlayColor={COLORS.actionPress}
-      style={{ 
+      onPress={onPress}
+      style={{
         ...buttonStyle,
         ...styles.button
       }}
     >
-      <RegularText
+      <RegularText 
         style={{
           ...textStyle,
           ...styles.text
@@ -21,15 +20,15 @@ export default ActionButton = ({ onPress, buttonStyle, textStyle, text, }) => {
       />
     </TouchableHighlight>
   )
-}
+};
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 5,
-    backgroundColor: COLORS.action,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 30
+        backgroundColor: COLORS.warning,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 30
   },
   text: {
     fontSize: 16

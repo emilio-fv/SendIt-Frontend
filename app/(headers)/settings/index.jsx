@@ -1,44 +1,28 @@
 import { router } from "expo-router";
-import { SafeAreaView, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
+import Header from "../../../components/Header";
+import WarningButton from '../../../components/Buttons/WarningButton';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default Settings = () => {
+  const handleLogout = () => {
+    // TODO: handle login
+  }
+
   return (
     <SafeAreaView>
-      <View>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <Text>Settings</Text>
-      </View>
+      <Header page={'Settings'}/>
+      <WarningButton 
+        buttonStyle={styles.button} 
+        onPress={() => handleLogout()} 
+        text={'Logout'}
+      />
     </SafeAreaView>
   )
 };
 
-// import { Stack, Link, router } from 'expo-router';
-// import { Text, TouchableOpacity } from 'react-native';
-
-// export default () => {
-//   return (
-//     <Stack>
-//       <Stack.Screen 
-//         name='addUser' 
-//         options={{ 
-//           headerTitle: 'Add User',
-//           headerLeft: () => <TouchableOpacity onPress={() => router.back()}>
-//             <Text>Back</Text>
-//           </TouchableOpacity>
-//         }}
-//       />
-//       <Stack.Screen 
-//         name='settings' 
-//         options={{ 
-//           headerTitle: 'Settings',
-//           headerLeft: () => <TouchableOpacity onPress={() => router.back()}>
-//             <Text>Back</Text>
-//           </TouchableOpacity>
-//         }}
-//       />
-//     </Stack>
-//   )
-// };
+const styles = StyleSheet.create({
+  button: {
+    marginHorizontal: '25%'
+  }
+})
